@@ -1,0 +1,69 @@
+server:
+  port: 8769
+
+spring:
+  application:
+    name: spring-cloud-admin-server
+  security:
+    user:
+      name: "admin"
+      password: "admin"
+
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 1115798334@qq.com
+    password: wytuezrggyrtgcaa
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          port: ${spring.mail.port}
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  boot:
+    admin:
+      ui:
+        title: SpringBootAdmin-Server
+      notify:
+        mail:
+          from: 1115798334@qq.com
+          to: 974924122@qq.com
+
+eureka:
+  client:
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8761/eureka/
+  instance:
+    instance-id: spring-cloud-admin-server
+    prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+  health:
+    db:
+      enabled: false
+    mail:
+      enabled: false
+    redis:
+      enabled: false
+    mongo:
+      enabled: false
